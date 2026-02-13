@@ -22,7 +22,7 @@ Python dependencies are listed in `requirements.txt`:
 
 - `mido`
 - `python-rtmidi`
-- `pygame`
+- `pygame-ce` (vanilla `pygame` may work but `pygame-ce` is recommended for better compatibility with Python 3.14+)
 
 ## Setup
 
