@@ -17,39 +17,56 @@ A lightweight desktop GUI that reads live MIDI notes from a Roland J-6 (or any a
 - Python 3.10+
 - A MIDI input device (Roland J-6 recommended)
 - OS MIDI support (CoreMIDI/ALSA/etc.)
+- `uv` package manager
 
-Python dependencies are listed in `requirements.txt`:
-
-- `mido`
-- `python-rtmidi`
-- `pygame-ce` (vanilla `pygame` may work but `pygame-ce` is recommended for better compatibility with Python 3.14+)
-
-## Setup
+## Setup (uv)
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+# install dependencies from pyproject.toml
+uv sync
 ```
 
 ## Run
 
 ```bash
-python3 j6_chord_gui.py
+uv run j6-chords-gui
 ```
 
-## Usage
+Backward-compatible launcher still works:
 
-- Connect your Roland J-6 (USB MIDI).
-- Launch the app.
-- If no device is found, the GUI shows a waiting screen and retries every few seconds.
-- Play notes/chords on the J-6 and watch the detected chord and keys update live.
-- Press `Esc` or close the window to quit.
+```bash
+uv run python j6_chord_gui.py
+```
+
+## Build package
+
+```bash
+./scripts/build_package.sh
+```
+
+Build artifacts are written to `dist/`.
+
+## Publish
+
+Automatic publish is handled by GitHub Actions on each published GitHub Release:
+
+- Workflow: `.github/workflows/publish-pypi.yml`
+- Details and credential checklist: `PUBLISHING_TODO.md`
+
+Manual publish fallback (token-based):
+
+```bash
+PYPI_API_TOKEN=... ./scripts/publish_package.sh
+```
 
 ## File Overview
 
-- `j6_chord_gui.py`: main application (MIDI input, chord detection, GUI rendering)
-- `requirements.txt`: Python package dependencies
+- `pyproject.toml`: project metadata, dependencies, and build configuration
+- `src/j6_chords/app.py`: main application (MIDI input, chord detection, GUI rendering)
+- `j6_chord_gui.py`: backward-compatible launcher
+- `scripts/build_package.sh`: local build and package validation
+- `.github/workflows/publish-pypi.yml`: CI build/publish workflow
+- `PUBLISHING_TODO.md`: required credentials and where to configure them
 
 ## Notes
 
